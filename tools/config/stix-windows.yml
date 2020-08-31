@@ -14,11 +14,15 @@ fieldmappings:
     - user-account:x_domain
   AccountID:
     - user-account:user_id
+    - process:creator_user_ref.user_id
   AccountName:
     - user-account:account_login
+    - process:creator_user_ref.account_login
     - user-account:display_name
+    - process:creator_user_ref.display_name
   AccountSecurityID:
     - user-account:x_security_id
+    - process:creator_user_ref.x_security_id
   CallTrace:
     - x-windows:calltrace
   ClientIP:
@@ -35,8 +39,7 @@ fieldmappings:
     - network-traffic:dst_ref.value
   Device:
     - file:name
-  ErrorCode:
-    - x-error:code
+    - x-event:file_ref.name
   Event-ID:
     - x-event:id
     - x-event:code
@@ -53,6 +56,8 @@ fieldmappings:
     - x-error:id
   FileDirectory:
     - directory:path
+    - file:parent_directory_ref.path
+    - x-event:file_ref.parent_directory_ref.path
   FileExtension:
     - file:x_extension
   FileHash:
@@ -60,9 +65,11 @@ fieldmappings:
     - file:hashes.MD5
     - file:hashes.SHA-1
   FilePath:
-    - file:name
+    - directory:path
+    - file:parent_directory_ref.path
   Filename:
     - file:name
+    - x-event:file_ref.name
   GrantedAccess:
     - x-windows:grantedaccess
   GroupDomain:
@@ -75,33 +82,43 @@ fieldmappings:
     - x-group:security_id
   HomeDirectory:
     - directory:path
+    - file:parent_directory_ref.path
+    - x-event:file_ref.parent_directory_ref.path
   IMPHash:
     - x-windows:imphash
   Imphash:
     - x-windows:imphash
   Image:
-    - process:image_ref.name
+    - process:binary_ref.name
+    - x-event:process_ref.binary_ref.name
   ImageLoadedTempPath:
     - process:extensions.'windows-service-ext'.service_dll_refs[*].x_temp_path
   ImageName:
-    - process:image_ref.name
+    - process:binary_ref.name
+    - x-event:process_ref.binary_ref.name
   ImagePath:
-    - process:image_ref.name
+    - process:binary_ref.name
+    - x-event:process_ref.binary_ref.name
   ImageTempPath:
-    - process:image_ref.x_temp_path
+    - process:binary_ref.x_temp_path
+    - x-event:process_ref.binary_ref.x_temp_path
   InitiatedConnection:
     - network-traffic:is_active
   Initiated:
     - network-traffic:is_active
   InitiatorUserName:
     - user-account:user_id
+    - process:creator_user_ref.user_id
     - user-account:account_login
+    - process:creator_user_ref.account_login
   IntegrityLevel:
     - x-windows:integritylevel
   LoadedImage:
     - process:extensions.'windows-service-ext'.service_dll_refs[*].name
+    - x-event:process_ref.extensions.'windows-service-ext'.service_dll_refs[*].name
   LoadedImageName:
     - process:extensions.'windows-service-ext'.service_dll_refs[*].name
+    - x-event:process_ref.extensions.'windows-service-ext'.service_dll_refs[*].name
   LogonType:
     - x-windows:logontype
   MD5Hash:
@@ -110,38 +127,51 @@ fieldmappings:
     - x-event:original
   NewName:
     - windows-registry-key:key
+    - x-event:registry_ref.key
   ObjectName:
     - x-windows:objectname
+    - x-event:registry_ref.key
   ObjectType:
     - x-windows:objecttype
   ParentCommandLine:
     - process:parent_ref.command_line
+    - x-event:process_ref.parent_ref.command_line
   ParentImage:
-    - process:parent_ref.image_ref.name
+    - process:parent_ref.binary_ref.name
+    - x-event:process_ref.parent_ref.binary_ref.name
   ParentImageName:
-    - process:parent_ref.image_ref.name
+    - process:parent_ref.binary_ref.name
+    - x-event:process_ref.parent_ref.binary_ref.name
   ParentProcessGuid:
     - process:parent_ref.x_guid
   ParentProcessName:
-    - process:parent_ref.image_ref.name
+    - process:parent_ref.binary_ref.name
+    - x-event:process_ref.parent_ref.binary_ref.name
   ParentProcessPath:
-    - process:parent_ref.image_ref.name
+    - process:parent_ref.binary_ref.name
+    - x-event:process_ref.parent_ref.binary_ref.name
   PipeName:
     - x-windows:pipename
   ProcessCommandLine:
     - process:command_line
+    - x-event:process_ref.command_line
   Command:
     - process:command_line
+    - x-event:process_ref.command_line
   CommandLine:
     - process:command_line
+    - x-event:process_ref.command_line
   ProcessGuid:
     - process:x_guid
   ProcessId:
     - process:pid
+    - x-event:process_ref.pid
   ProcessName:
-    - process:image_ref.name
+    - process:binary_ref.name
+    - x-event:process_ref.binary_ref.name
   ProcessPath:
-    - process:image_ref.name
+    - process:binary_ref.name
+    - x-event:process_ref.binary_ref.name
   QueryName:
     - x-windows:queryname
   QueryResults:
@@ -150,21 +180,28 @@ fieldmappings:
     - x-windows:querystatus
   RegistryKey:
     - windows-registry-key:key
+    - x-event:registry_ref.key
   RegistryValueData:
     - windows-registry-key:values[*].data
+    - x-event:registry_ref.values[*].data
   RegistryValueName:
     - windows-registry-key:values[*].name
+    - x-event:registry_ref.values[*].name
   SAMAccountName:
     - user-account:account_login
+    - process:creator_user_ref.account_login
     - user-account:display_name
+    - process:creator_user_ref.display_name
   SHA1Hash:
     - file:hashes.SHA-1
   SHA256Hash:
     - file:hashes.SHA-256
   ServiceFileName:
     - process:extensions.'windows-service-ext'.service_dll_refs[*].name
+    - x-event:process_ref.extensions.'windows-service-ext'.service_dll_refs[*].name
   ServiceName:
     - process:extensions.'windows-service-ext'.service_name
+    - x-event:process_ref.extensions.'windows-service-ext'.service_name
   ShareName:
     - x-windows:sharename
   SharePath:
@@ -176,9 +213,11 @@ fieldmappings:
   Signed:
     - x-windows:signed
   SourceImage:
-    - x-windows:sourceimage
+    - process:binary_ref.name
+    - x-event:process_ref.binary_ref.name
   SourceImageTempPath:
-    - x-windows:sourceimagetemppath
+    - process:binary_ref.x_temp_path
+    - x-event:process_ref.binary_ref.x_temp_path
   SourceWorkstation:
     - x-windows:sourceworkstation
   StartAddress:
@@ -200,12 +239,14 @@ fieldmappings:
     - x-event:original
   TargetFilename:
     - file:name
+    - x-event:file_ref.name
   TargetImage:
     - x-windows:targetimage
   TargetImageName:
     - x-windows:targetimagename
   TargetObject:
     - windows-registry-key:key
+    - x-event:registry_ref.key
   TargetProcessGuid:
     - x-windows:targetprocessguid
   TargetProcessAddress:
@@ -220,32 +261,43 @@ fieldmappings:
     - x-windows:ticketencryptiontype
   User:
     - user-account:user_id
+    - process:creator_user_ref.user_id
   UserDomain:
     - user-account:x_domain
+    - process:creator_user_ref.x_domain
   event-id:
     - x-event:id
   eventId:
     - x-event:id
   event_data.FileName:
     - file:name
+    - x-event:file_ref.name
   event_data.Image:
-    - process:image_ref.name
+    - process:binary_ref.name
+    - x-event:process_ref.binary_ref.name
   event_data.ImageLoaded:
     - process:extensions.'windows-service-ext'.service_dll_refs[*].name
+    - x-event:process_ref.extensions.'windows-service-ext'.service_dll_refs[*].name
   ImageLoaded:
     - process:extensions.'windows-service-ext'.service_dll_refs[*].name
+    - x-event:process_ref.extensions.'windows-service-ext'.service_dll_refs[*].name
   event_data.ImagePath:
-    - process:image_ref.name
+    - process:binary_ref.name
+    - x-event:process_ref.binary_ref.name
   event_data.ParentCommandLine:
     - process:parent_ref.command_line
+    - x-event:process_ref.parent_ref.command_line
   event_data.ParentImage:
-    - process:parent_ref.image_ref.name
+    - process:parent_ref.binary_ref.name
+    - x-event:process_ref.parent_ref.binary_ref.name
   event_data.ParentProcessName:
-    - process:parent_ref.image_ref.name
+    - process:parent_ref.binary_ref.name
+    - x-event:process_ref.parent_ref.binary_ref.name
   event_data.PipeName:
     - x-windows:pipename
   event_data.ServiceFileName:
     - process:extensions.'windows-service-ext'.service_dll_refs[*].name
+    - x-event:process_ref.extensions.'windows-service-ext'.service_dll_refs[*].name
   event_data.ShareName:
     - x-windows:sharename
   event_data.Signature:
@@ -256,13 +308,17 @@ fieldmappings:
     - x-windows:startmodule
   event_data.SubjectUserName:
     - user-account:user_id
+    - process:creator_user_ref.user_id
     - user-account:account_login
+    - process:creator_user_ref.account_login
   event_data.TargetFilename:
     - file:name
+    - x-event:file_ref.name
   event_data.TargetImage:
     - x-windows:targetimage
   event_data.User:
     - user-account:user_id
+    - process:creator_user_ref.user_id
   event_id:
     - x-event:id
   eventid:

@@ -7,6 +7,7 @@ fieldmappings:
     - x-event:action
   User:
     - user-account:user_id
+    - process:creator_user_ref.user_id
   c-ip:
     - ipv4-addr:value
     - ipv6-addr:value
@@ -24,10 +25,13 @@ fieldmappings:
     - network-traffic:dst_ref.value
   destinationport:
     - network-traffic:dst_port
+    - process:opened_connection_refs[*].dst_port
   dst_port:
     - network-traffic:dst_port
+    - process:opened_connection_refs[*].dst_port
   domainname:
     - domain-name:value
+    - x-host.domain
   dst:
     - ipv4-addr:value
     - ipv6-addr:value
@@ -48,25 +52,32 @@ fieldmappings:
     - network-traffic:dst_ref.value
   event_data.DestinationPort:
     - network-traffic:dst_port
+    - process:opened_connection_refs[*].dst_port
   DestinationPort:
     - network-traffic:dst_port
+    - process:opened_connection_refs[*].dst_port
   destination.port:
     - network-traffic:dst_port
+    - process:opened_connection_refs[*].dst_port
   event_data.SubjectUserName:
     - user-account:user_id
+    - process:creator_user_ref.user_id
   event_data.User:
     - user-account:user_id
+    - process:creator_user_ref.user_id
   filehash:
     - file:hashes.SHA-256
     - file:hashes.MD5
     - file:hashes.SHA-1
   filename:
     - file:name
+    - x-event:file_ref.name
   filepath:
-    - file:parent_directory_ref
+    - file:parent_directory_ref.path
     - directory:path
   identityip:
     - ipv4-addr:value
+    - x-host.ip
   protocolid:
     - network-traffic:protocols[*]
   sourceip:
@@ -78,8 +89,10 @@ fieldmappings:
     - network-traffic:src_ref.value
   sourceport:
     - network-traffic:src_port
+    - process:opened_connection_refs[*].src_port
   SourcePort:
     - network-traffic:src_port
+    - process:opened_connection_refs[*].src_port
   src:
     - ipv4-addr:value
     - ipv6-addr:value
@@ -94,11 +107,12 @@ fieldmappings:
     - url:value
   user:
     - user-account:user_id
+    - process:creator_user_ref.user_id
   username:
     - user-account:user_id
+    - process:creator_user_ref.user_id
   utf8_payload:
-    - artifact:payload_bin
-
+    - x-event:original
   # Web + Proxy mapping
   c-uri:
     - network-traffic:extensions.'http-request-ext'.request_value
@@ -110,7 +124,7 @@ fieldmappings:
     - network-traffic:extensions.'http-request-ext'.request_value
     - url:value
   keywords:
-    - artifact:payload_bin
+    - x-event:original
   cs-method:
     - network-traffic:extensions.'http-request-ext'.request_method
   sc-status:
@@ -119,6 +133,7 @@ fieldmappings:
     - ipv4-addr:value
     - ipv6-addr:value
     - network-traffic:src_ref.value
+    - x-host.ip
   c-useragent:
     - network-traffic:extensions.'http-request-ext'.request_header.'User-Agent'
   r-dns:
@@ -158,18 +173,24 @@ fieldmappings:
     - x-cloud:publicly_accessible
   errorMessage:
     - x-error:message
+    - x-event:original
   errorCode:
     - x-error:code
+    - x-event:code
   responseElements:
     - x-cloud:response_elements
   requestParameters.userData:
     - x-cloud:request_parameters
   userIdentity.type:
     - user-account:account_login
+    - process:creator_user_ref.account_login
   eventType:
     - x-event:action
   userIdentity.arn:
     - user-account:account_login
+    - process:creator_user_ref.account_login
     - user-account:display_name
+    - process:creator_user_ref.display_name
   responseElements.pendingModifiedValues.masterUserPassword:
     - user-account:credential
+    - process:creator_user_ref.credential

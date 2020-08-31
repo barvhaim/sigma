@@ -9,28 +9,36 @@ fieldmappings:
   type:
     - x-event:action
   keywords:
-    - artifact:payload_bin
+    - x-event:original
   a0:
     - process:command_line
+    - x-event:process_ref.command_line
   a1:
     - process:command_line
+    - x-event:process_ref.command_line
   name:
     - file:name
+    - x-event:file_ref.name
   a3:
     - process:command_line
+    - x-event:process_ref.command_line
   key:
-    - x-sigma:keywords
+    - x-event:original
   exe:
     - file:name
+    - x-event:file_ref.name
   a2:
     - process:command_line
+    - x-event:process_ref.command_line
   SYSCALL:
     - x-event:action
   pam_message:
     - x-event:action
   pam_user:
     - user-account:user_id
+    - process:creator_user_ref.user_id
   pam_rhost:
     - x-host:name
   USER:
     - user-account:user_id
+    - process:creator_user_ref.user_id
