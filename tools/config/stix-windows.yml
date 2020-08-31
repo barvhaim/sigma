@@ -90,9 +90,9 @@ fieldmappings:
   ImageTempPath:
     - process:image_ref.x_temp_path
   InitiatedConnection:
-    - x-windows:initiatedconnection
+    - network-traffic:is_active
   Initiated:
-    - x-windows:initiatedconnection
+    - network-traffic:is_active
   InitiatorUserName:
     - user-account:user_id
     - user-account:account_login
